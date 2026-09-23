@@ -65,6 +65,11 @@ h1, h2, h3, .serif { font-family: Georgia, 'Times New Roman', serif; }
   color: var(--gold); letter-spacing: 2.5px; font-size: 10.5px; text-transform: uppercase;
   position: relative; z-index: 1;
 }
+.hero-ig-link {
+  display: block; margin-top: 12px; color: var(--navy-300); font-size: 11.5px; font-style: italic;
+  text-decoration: none; position: relative; z-index: 1;
+}
+.hero-ig-link:hover { color: var(--gold); }
 
 /* ---------- Shipping + community banners ---------- */
 .ship-banner {
@@ -72,19 +77,30 @@ h1, h2, h3, .serif { font-family: Georgia, 'Times New Roman', serif; }
   color: var(--navy-900); text-align: center; font-size: 11.5px; font-weight: bold;
   letter-spacing: 0.5px; padding: 8px 14px;
 }
-.cta-banners { display: flex; flex-wrap: wrap; }
-.cta-banner {
-  flex: 1; min-width: 260px; display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 11px 14px; text-decoration: none; font-size: 12px; font-weight: bold; letter-spacing: 0.5px;
-  color: var(--paper); text-transform: uppercase;
-  background: var(--navy-800); transition: background 0.15s;
+.quick-links {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; padding: 14px 20px;
+  background: var(--navy-900);
+  border-top: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07);
 }
-.cta-banner.wa { background: #2b7a5f; }
-.cta-banner.wa:hover { background: #35946f; }
-.cta-banner.ig { background: linear-gradient(90deg, #4f5bd5, #962fbf, #d62976, #fa7e1e); }
-.cta-banner.ig:hover { filter: brightness(1.08); }
-.cta-banner svg { flex-shrink: 0; }
-.cta-banner .sub { font-weight: normal; text-transform: none; opacity: 0.85; font-size: 10.5px; margin-left: 4px; }
+.quick-links-label {
+  color: var(--gold); font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: bold; opacity: 0.9; text-align: center;
+}
+.quick-links-row {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 8px 30px;
+}
+.quick-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: var(--navy-200); font-size: 12.5px; letter-spacing: 0.3px; text-decoration: none;
+  transition: color 0.15s;
+}
+.quick-link svg { flex-shrink: 0; opacity: 0.75; transition: opacity 0.15s; }
+.quick-link .arrow { font-size: 11px; opacity: 0.6; transition: transform 0.15s, opacity 0.15s; }
+.quick-link:hover { color: var(--gold); }
+.quick-link:hover svg { opacity: 1; }
+.quick-link:hover .arrow { opacity: 1; transform: translateX(2px); }
 
 /* ---------- Sticky controls (glass) ---------- */
 header {
@@ -327,20 +343,27 @@ main { max-width: 1200px; margin: 0 auto; padding: 16px 6mm 90px 6mm; }
   <p>Giriamo l'Italia da anni per raccontare l'evoluzione nel vino. Selezioniamo personalmente, acquistiamo e stappiamo bottiglie che diventano esperienza. Questo catalogo è il risultato della nostra ricerca.</p>
   <p>Buon divertimento</p>
   <p class="signature">Tesori Liquidi</p>
-  <div class="edition">Catalogo · Edizione Agosto</div>
+  <div class="edition">Catalogo</div>
 </div>
 
 <div class="ship-banner">🚚 Spedizione gratuita sopra i 250 € oppure da 6 bottiglie in su</div>
 
-<div class="cta-banners">
-  <a class="cta-banner wa" href="https://chat.whatsapp.com/CEi0RhjV7c4LjUavIfCb7U?s=cl&p=a&ilr=0&amv=1" target="_blank" rel="noopener">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.16c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.81-.11-.42-.13-.95-.31-1.64-.61-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2.01.89 2.16.07.15.12.32.02.51-.1.19-.15.31-.29.48-.15.17-.31.37-.44.5-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.35 1.46.29.15.46.13.63-.05.17-.19.72-.84.91-1.13.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.95.29.14.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>
-    TL Caveau · Promozioni <span class="sub">(gruppo WhatsApp)</span>
+<div class="quick-links">
+  <div class="quick-links-label">Clicca qui</div>
+  <div class="quick-links-row">
+  <a class="quick-link" href="https://chat.whatsapp.com/CEi0RhjV7c4LjUavIfCb7U?s=cl&p=a&ilr=0&amv=1" target="_blank" rel="noopener">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/><path d="M8.5 8.3c.3-.6.6-.6.9-.6.2 0 .4 0 .6.3.2.4.7 1.6.8 1.7.1.2.1.3 0 .5-.1.2-.2.3-.3.4-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.2 1.1.9 1.9 1.2 2.2 1.3.2.1.4.1.5-.1.2-.2.6-.7.8-1 .2-.2.3-.2.5-.1.2.1 1.5.7 1.8.9.2.1.4.2.4.3.1.2.1.6-.1 1.1-.3.5-1.2 1-1.7 1.1-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.3.6-1.9.9-2.2z"/></svg>
+    TL Caveau · Promozioni<span class="arrow">→</span>
   </a>
-  <a class="cta-banner ig" href="https://www.instagram.com/channel/AbYCprNzWz0NeeXt/" target="_blank" rel="noopener">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-    Calendario Eventi <span class="sub">(canale Instagram)</span>
+  <a class="quick-link" href="https://chat.whatsapp.com/DcCCbX0B6tfBMZFCVRKJUW?s=cl&amp;p=a&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/><path d="M8.5 8.3c.3-.6.6-.6.9-.6.2 0 .4 0 .6.3.2.4.7 1.6.8 1.7.1.2.1.3 0 .5-.1.2-.2.3-.3.4-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.2 1.1.9 1.9 1.2 2.2 1.3.2.1.4.1.5-.1.2-.2.6-.7.8-1 .2-.2.3-.2.5-.1.2.1 1.5.7 1.8.9.2.1.4.2.4.3.1.2.1.6-.1 1.1-.3.5-1.2 1-1.7 1.1-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.3.6-1.9.9-2.2z"/></svg>
+    TL Calendario Eventi<span class="arrow">→</span>
   </a>
+  <a class="quick-link" href="https://www.instagram.com/tesoriliquidi_?stkn=MXVlaG1leGZhaGt6aQ==" target="_blank" rel="noopener">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    Scopri di più su di noi<span class="arrow">→</span>
+  </a>
+  </div>
 </div>
 
 <header>
