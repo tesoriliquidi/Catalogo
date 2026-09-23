@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tesori Liquidi — Catalogo</title>
-<meta name="description" content="Catalogo vini Tesori Liquidi — Edizione Luglio. Cerca, filtra e seleziona le bottiglie che ti interessano.">
+<meta name="description" content="Catalogo vini Tesori Liquidi — Edizione Agosto. Cerca, filtra e seleziona le bottiglie che ti interessano.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tesori Liquidi — Catalogo Vini">
-<meta property="og:description" content="Edizione Luglio: oltre 350 etichette selezionate. Cerca per tipologia, regione, annata e prezzo, scegli le tue bottiglie e scrivici direttamente su WhatsApp.">
-<meta property="og:image" content="https://i.ibb.co/ZRCs4yVC/1000349231.jpg">
+<meta property="og:description" content="Edizione Agosto: oltre 350 etichette selezionate. Cerca per tipologia, regione, annata e prezzo, scegli le tue bottiglie e scrivici direttamente su WhatsApp.">
+<meta property="og:image" content="og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tesori Liquidi — Catalogo Vini">
-<meta name="twitter:description" content="Edizione Luglio: oltre 350 etichette selezionate. Cerca, filtra e scrivici su WhatsApp.">
-<meta name="twitter:image" content="https://i.ibb.co/ZRCs4yVC/1000349231.jpg">
+<meta name="twitter:description" content="Edizione Agosto: oltre 350 etichette selezionate. Cerca, filtra e scrivici su WhatsApp.">
+<meta name="twitter:image" content="og-image.jpg">
 <style>
 :root {
   --navy-900:#1B232C; --navy-800:#27333F; --navy-700:#334252; --navy-600:#435262;
@@ -327,7 +327,7 @@ main { max-width: 1200px; margin: 0 auto; padding: 16px 6mm 90px 6mm; }
   <p>Giriamo l'Italia da anni per raccontare l'evoluzione nel vino. Selezioniamo personalmente, acquistiamo e stappiamo bottiglie che diventano esperienza. Questo catalogo è il risultato della nostra ricerca.</p>
   <p>Buon divertimento</p>
   <p class="signature">Tesori Liquidi</p>
-  <div class="edition">Catalogo · Edizione Luglio</div>
+  <div class="edition">Catalogo · Edizione Agosto</div>
 </div>
 
 <div class="ship-banner">🚚 Spedizione gratuita sopra i 250 € oppure da 6 bottiglie in su</div>
@@ -568,8 +568,10 @@ const priceHintEl = document.getElementById('priceHint');
 // range makes sense, given all OTHER active filters — this is what makes the
 // filters cascade into each other.
 function refreshAllFilterOptions() {
-  // Price bounds first: clamp out-of-range values before using them to
-  // compute the other filters' available options.
+  // Price bounds: just compute and display them here. We never clear the
+  // user's typed value from this function — that would wipe the field
+  // mid-keystroke (e.g. typing "150" briefly passes through "1", "15").
+  // Out-of-range correction only happens on blur, see below.
   const pricePool = WINES.filter(w => matchesFilters(w, {price: true}));
   const prices = pricePool.map(w => w.prezzo).filter(p => p > 0);
   if (prices.length) {
@@ -580,8 +582,7 @@ function refreshAllFilterOptions() {
     priceMinEl.placeholder = 'min ' + lo;
     priceMaxEl.placeholder = 'max ' + hi;
     priceHintEl.textContent = `Disponibile: € ${lo} – € ${hi}`;
-    if (state.priceMin !== null && (state.priceMin < lo || state.priceMin > hi)) { state.priceMin = null; priceMinEl.value=''; }
-    if (state.priceMax !== null && (state.priceMax < lo || state.priceMax > hi)) { state.priceMax = null; priceMaxEl.value=''; }
+    priceHintEl.dataset.lo = lo; priceHintEl.dataset.hi = hi;
   } else {
     priceHintEl.textContent = 'Nessuna bottiglia con questi filtri';
   }
@@ -605,10 +606,27 @@ function refreshAllFilterOptions() {
 }
 refreshAllFilterOptions();
 
+// Only correct an out-of-range price once the person leaves the field
+// (blur) — never while they're still typing.
+function clampPriceField(el, isMin) {
+  const lo = parseFloat(priceHintEl.dataset.lo);
+  const hi = parseFloat(priceHintEl.dataset.hi);
+  if (isNaN(lo) || isNaN(hi)) return;
+  let v = el.value ? parseFloat(el.value) : null;
+  if (v === null) return;
+  if (v < lo) v = lo;
+  if (v > hi) v = hi;
+  el.value = v;
+  if (isMin) state.priceMin = v; else state.priceMax = v;
+  refreshAllFilterOptions(); render();
+}
+
 document.getElementById('searchInput').addEventListener('input', e => { state.search = e.target.value.toLowerCase(); refreshAllFilterOptions(); render(); });
 document.getElementById('sortSelect').addEventListener('change', e => { state.sort = e.target.value; render(); });
-priceMinEl.addEventListener('input', e => { state.priceMin = e.target.value ? parseFloat(e.target.value) : null; refreshAllFilterOptions(); render(); });
-priceMaxEl.addEventListener('input', e => { state.priceMax = e.target.value ? parseFloat(e.target.value) : null; refreshAllFilterOptions(); render(); });
+priceMinEl.addEventListener('input', e => { state.priceMin = e.target.value ? parseFloat(e.target.value) : null; render(); });
+priceMaxEl.addEventListener('input', e => { state.priceMax = e.target.value ? parseFloat(e.target.value) : null; render(); });
+priceMinEl.addEventListener('blur', () => clampPriceField(priceMinEl, true));
+priceMaxEl.addEventListener('blur', () => clampPriceField(priceMaxEl, false));
 document.getElementById('resetBtn').addEventListener('click', () => {
   state.search=''; state.tipi.clear(); state.stati.clear(); state.regioni.clear(); state.annate.clear(); state.priceMin=null; state.priceMax=null; state.sort='cantina-asc';
   document.getElementById('searchInput').value='';
